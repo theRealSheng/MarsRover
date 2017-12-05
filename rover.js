@@ -1,66 +1,77 @@
+window.onload = function () {
+  const subButton = document.getElementById('check').value;
+  const pathStr = document.getElementById('instructions').value;
 
-document.getElementById('check').addEventListener('click', path);
-var pathStr = document.getElementById('path');
+  subButton.addEventListener('click', path);
+  pathStr.addEventListener('click', clearForm);
 
-var myRover = {
-  curPosition: [0, 0],
-  direction: 'S',
-};
+  let myRover = {
+    curPosition: [0, 0],
+    direction: 'n',
+  };
 
-function path(pathStr) {
-  // split the str command and passsing each letter to the movement
-  // testing function (goForward)
-  var split = pathStr.split('').toLowerCase().forEach(function (x) {
-    return goForward(x);
-  });
-}
+  // Array for the possible directions - To be use later to change direction with
+  //l(left) or r(right)
+  let dirChange = [n, e, s, w];
 
-function goForward(commanding) {
-  // testing if new position does not fall outside the grid
-  var newPosition = curPosition;
-
-  // First number location [0] moves up & down
-  // Second number location [1] moves left & right
-  switch (direction) {
-    case 'n':
-      newPosition[0]--;
-      break;
-    case 'n':
-      newPosition[1]++;
-      break;
-    case 's':
-      newPosition[0]++;
-      break;
-    case 'w':
-      newPosition[1]--;
-      break;
-    default:
-      window.alert('The input key is not valid, please type N,E,S,W');
+  function path(pathStr) {
+    // split the str command and passsing each letter to the movement
+    // testing function (goForward)
+    let split = pathStr.split('').toLowerCase().forEach(x => goForward(x));
   }
 
-  // Return false if rover goes out of the grid (10x10)
-  if (newPosition.includes(-1) || newPosition.includes(11)) {
-    window.alert('Rover will land outside grid, this movement is not valid');
-    return false;
+  function goForward(letter) {
+    // testing if new position does not fall outside the grid
+    let newPosition = [0, 0];
+
+    if (letter === 'l') {
+      myRover.direction = dirChange[dirChange.indexOf('myRover.direction') - 1];
+    } else if ((dirChange.indexOf('myRover.direction') - 1) < 0) {
+      myRover.direction = dirChange[dirChange.length - 1];
+    }
+
+    if (letter === 'r') {
+      myRover.direction = dirChange[dirChange.indexOf('myRover.direction') + 1];
+    } else if ((dirChange.indexOf('myRover.direction') + 2) > dirChange.length) {
+      myRover.direction = dirChange[0];
+    }
+
+    if (direction === 'n') {
+      return letter === 'f' ? newPosition[0]++ : newPosition[0]--;
+    }
+
+    if (direction === 's') {
+      return letter === 'f' ? newPosition[0]-- : newPosition[0]++;
+    }
+
+    if (direction === 'w') {
+      return letter === 'f' ? newPosition[1]-- : newPosition[1]++;
+    }
+
+    if (direction === 'e') {
+      return letter === 'f' ? newPosition[1]++ : newPosition[1]--;
+    }
+
+    if (newPosition.includes(-1) || newPosition.includes(11)) {
+      alert('The rover will fall out of the grid. Please reenter other instructions');
+    } else {
+      myRover.position = newPosition;
+      curPos();
+    }
   }
 
-  // if the new command makes the rover not falling outside the grid, the
-  // testing command becomes the new position
-  curPosition = newPosition;
-  curPos();
-}
-
-// Show current position of the Rover
-function curPos() {
-  return `
+  // Show current position of the Rover
+  function curPos() {
+    return `
     <li>
       <span class="pos">${myRover.curPosition}</span>
     </li>
   `;
-}
+  }
 
-// Clear the command input when submit
-function clearForm() {
-  var formField = document.querySelector('.formFields');
-  formField.value = '';
-}
+  // Clear the command input when submit
+  function clearForm() {
+    let formField = document.querySelector('.formFields');
+    formField.value = '';
+  }
+};

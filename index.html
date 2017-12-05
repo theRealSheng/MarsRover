@@ -5,8 +5,15 @@
 	<script type="text/javascript" src="rover.js"></script>
 </head>
 <body>
-	<p>Please input instructions for the Rover. Rover starts at "Top Left" corner with positin [0,0]. Rover's reach is 10x10. S for South, N for North, W for West, and E for East. Each letter counts as 1 movement in the grid.</p>
-	<input type="text" value="Type here..." id='path' class='formField'>
+	<p>Please input instructions for the Rover. Rover starts at "botton left" corner with position [0,0]. Rover's maximum reach is [10, 10]. </p>
+	<p>Instrutions legend:</p>
+	<ul>
+		<li>f for go forward</li>
+		<li>b for go back</li>
+		<li>r for turn right</li>
+		<li>l for turn left</li>
+	</ul>
+	<input type="text" value="Type here..." id='instructions' class='formField'>
 	<button id='check'>Command movement</button>
 
 	<p>Current Position of Rover(10x10 Grid)</p>
