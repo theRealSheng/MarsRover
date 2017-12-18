@@ -72,6 +72,7 @@ function goForward(letter) {
   }
 
   if (checkCollision) {
+    curPos();
     return;
   }
 }
