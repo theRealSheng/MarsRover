@@ -7,7 +7,7 @@ subButton.addEventListener('click', path.bind(pathStr));
 pathStr.addEventListener('click', clearForm);
 
 let myRover = {
-  curPosition: [0, 0],
+  position: [0, 0],
   direction: 'n',
 };
 
