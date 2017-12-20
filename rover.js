@@ -21,79 +21,74 @@ function path(pathStr) {
   let split = pathStr.split('').toLowerCase();
 
   for (let i = 0; i < pathStr.length; i++) {
-    return goForward(split[i]);
-  }
-}
+    let lastPos = [];
+    let newPosition = [0, 0];
 
-function goForward(letter) {
-  // testing if new position does not fall outside the grid
-  let lastPos = [];
-  let newPosition = [0, 0];
+    if (!checkCollision) {
+      if (split[i] === 'l') {
+        myRover.direction = dirChange[dirChange.indexOf('myRover.direction') - 1];
+      } else if ((dirChange.indexOf('myRover.direction') - 1) < 0) {
+        myRover.direction = dirChange[dirChange.length - 1];
+      }
 
-  if (!checkCollision) {
-    if (letter === 'l') {
-      myRover.direction = dirChange[dirChange.indexOf('myRover.direction') - 1];
-    } else if ((dirChange.indexOf('myRover.direction') - 1) < 0) {
-      myRover.direction = dirChange[dirChange.length - 1];
-    }
+      if (split[i] === 'r') {
+        myRover.direction = dirChange[dirChange.indexOf('myRover.direction') + 1];
+      } else if ((dirChange.indexOf('myRover.direction') + 2) > dirChange.length) {
+        myRover.direction = dirChange[0];
+      }
 
-    if (letter === 'r') {
-      myRover.direction = dirChange[dirChange.indexOf('myRover.direction') + 1];
-    } else if ((dirChange.indexOf('myRover.direction') + 2) > dirChange.length) {
-      myRover.direction = dirChange[0];
-    }
+      if (direction === 'n') {
+        return split[i] === 'f' ? newPosition[0]++ : newPosition[0]--;
+      }
 
-    if (direction === 'n') {
-      return letter === 'f' ? newPosition[0]++ : newPosition[0]--;
-    }
+      if (direction === 's') {
+        return split[i] === 'f' ? newPosition[0]-- : newPosition[0]++;
+      }
 
-    if (direction === 's') {
-      return letter === 'f' ? newPosition[0]-- : newPosition[0]++;
-    }
+      if (direction === 'w') {
+        return split[i] === 'f' ? newPosition[1]-- : newPosition[1]++;
+      }
 
-    if (direction === 'w') {
-      return letter === 'f' ? newPosition[1]-- : newPosition[1]++;
-    }
+      if (direction === 'e') {
+        return split[i] === 'f' ? newPosition[1]++ : newPosition[1]--;
+      }
 
-    if (direction === 'e') {
-      return letter === 'f' ? newPosition[1]++ : newPosition[1]--;
-    }
-
-    if (newPosition.includes(-1) || newPosition.includes(11)) {
-      alert('The rover will fall out of the grid. Please reenter other instructions');
+      if (newPosition.includes(-1) || newPosition.includes(11)) {
+        alert('The rover will fall out of the grid. Please reenter other instructions');
+        break;
+      } else {
+        myRover.position = newPosition;
+        lastPos.push(letter);
+        curPos();
+      }
     } else {
-      myRover.position = newPosition;
-      lastPos.push(letter);
+      //Code to show last Position
       curPos();
     }
-  } else {
-    //Code to show last Position
-    curPos();
+
+    if (checkCollision) {
+      return;
+    }
   }
 
-  if (checkCollision) {
-    curPos();
-    return;
-  }
-}
-
-// Show current position of the Rover
-function curPos() {
-  let currPos =
-    `
+  // Show current position of the Rover
+  function curPos() {
+    let currPos =
+      `
     <li>
       <span class="pos">${myRover.curPosition}</span>
     </li>
   `;
-  currentPos.innerHTML = currPos;
-}
+    currentPos.innerHTML = currPos;
+  }
 
-// Clear the command input when submit
-function clearForm() {
-  let formField = document.querySelector('.formFields');
-  formField.value = '';
-}
+  // Clear the command input when submit
+  function clearForm() {
+    let formField = document.querySelector('.formFields');
+    formField.value = '';
+  }
 
-function checkCollision() {
-  return newPosition === [4, 8] ? true : false;
+  function checkCollision() {
+    return newPosition === [4, 8] ? true : false;
+  }
 }
