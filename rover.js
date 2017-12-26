@@ -8,8 +8,8 @@ let myRover = {
 var commandInput;
 var count = 0;
 var finalCommand;
-var obsX = Math.round(Math.random() * 9);
-var obsY = Math.round(Math.random() * 9);
+var obsX = Math.round(Math.random() * 10);
+var obsY = Math.round(Math.random() * 10);
 var obstacles = [obsX, obsY];
 
 var newDirectionStr = 'New Rover Direction: ';
