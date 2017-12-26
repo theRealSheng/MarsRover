@@ -1,94 +1,191 @@
-const subButton = document.getElementById('check');
-const pathStr = document.getElementById('instructions').value;
-const currentPos = docuemnt.querySelector('.pos');
-
-subButton.addEventListener('click', path.bind(pathStr));
-
-pathStr.addEventListener('click', clearForm);
-
 let myRover = {
   position: [0, 0],
-  direction: 'n',
+  direction: 'N',
+  commands: ['l', 'r', 'f', 'b'],
 };
 
-// Array for the possible directions - To be use later to change direction with
-//l(left) or r(right)
-let dirChange = ['n', 'e', 's', 'w'];
+// ************Variables list
+var commandInput;
+var count = 0;
+var finalCommand;
 
-function path(pathStr) {
-  // split the str command and passsing each letter to the movement
-  // testing function (goForward)
-  let split = pathStr.split('').toLowerCase();
+var dirLeft;
+var dirRight;
 
-  for (let i = 0; i < pathStr.length; i++) {
-    let lastPos = [];
-    let newPosition = [0, 0];
+var newDirectionStr = 'New Rover Direction: ';
 
-    if (!checkCollision) {
-      if (split[i] === 'l') {
-        myRover.direction = dirChange[dirChange.indexOf('myRover.direction') - 1];
-      } else if ((dirChange.indexOf('myRover.direction') - 1) < 0) {
-        myRover.direction = dirChange[dirChange.length - 1];
-      }
+// *************Starting program
+var startInformation = console.log('Start position: ' + '[' + myRover.position + ']' + ' Direction: ' + myRover.direction);
 
-      if (split[i] === 'r') {
-        myRover.direction = dirChange[dirChange.indexOf('myRover.direction') + 1];
-      } else if ((dirChange.indexOf('myRover.direction') + 2) > dirChange.length) {
-        myRover.direction = dirChange[0];
-      }
+//Asking for the orders (commands)
+commandInput = prompt('Waiting for new orders. The commands are: \n\n\nL: Left; \nR: Right; \nF: Forward; \nB: Backward;').toLowerCase();
 
-      if (direction === 'n') {
-        return split[i] === 'f' ? newPosition[0]++ : newPosition[0]--;
-      }
+//Checking each individual command order
+while (count < commandInput.length) {
 
-      if (direction === 's') {
-        return split[i] === 'f' ? newPosition[0]-- : newPosition[0]++;
-      }
+  // Verifying if the commandInput is one of the roverCommands ("l", "r", "f", "b")
 
-      if (direction === 'w') {
-        return split[i] === 'f' ? newPosition[1]-- : newPosition[1]++;
-      }
+  if (commandInput[count] === myRover.commands[0]) {
+    // register last command with the new instruction
+    finalCommand = myRover.commands[0];
 
-      if (direction === 'e') {
-        return split[i] === 'f' ? newPosition[1]++ : newPosition[1]--;
-      }
+  } else if (commandInput[count] === myRover.commands[1]) {
 
-      if (newPosition.includes(-1) || newPosition.includes(11)) {
-        alert('The rover will fall out of the grid. Please reenter other instructions');
+    finalCommand = myRover.commands[1];
+
+  } else if (commandInput[count] === myRover.commands[2]) {
+
+    finalCommand = myRover.commands[2];
+
+  } else if (commandInput[count] === myRover.commands[3]) {
+
+    finalCommand = myRover.commands[3];
+
+  } else {
+
+    //Message of error ("You used a wrong command!")
+    console.log(`Sorry, the letter ${commandInput[count]} isn't a correct command.The commands are:   L: Left;   R: Right;   F: Forward;   B: Backward;  Waiting for new orders`);
+    break;
+  }
+
+  finalCommand = commandInput[count];
+
+  //Functions to get direction ("N", "E", "S", "W")
+  if (finalCommand === 'l' || finalCommand === 'r') {
+    getDirection();
+  }
+
+  //Functions to move the Mars Rover
+  if (finalCommand === 'f' || finalCommand === 'b') {
+    moveRover();
+  }
+
+  //Inform the user about the Rover position in Mars
+  if (commandInput[count] === 'f' || commandInput[count] === 'b') {
+    console.log('New Rover Position: [' + myRover.position[0] + ', ' + myRover.position[1] + ']');
+  }
+
+  // Check if rover falls outside of the grid of 10 x 10
+  if (fallOut) {
+    console.log('The rover will fall outside the grid. Please input new instructions');
+    break;
+  }
+
+  count++;
+
+}
+
+var countInverse = commandInput.length;
+
+while (countInverse > -1) {
+
+  if (countInverse === 0) {
+    console.log('Current Rover Position: [' + myRover.position[0] + ', ' + myRover.position[1] + ']' + ' & Current Direction: ' + myRover.direction);
+  }
+
+  countInverse--;
+}
+
+//****************** End program
+
+//******* Functions
+
+//Changing the direction depending on the finalCommand
+function getDirection() {
+
+  if (finalCommand === 'l') {
+    switch (myRover.direction) {
+      case 'N':
+        myRover.direction = 'W';
+        console.log(newDirectionStr + myRover.direction);
         break;
-      } else {
-        myRover.position = newPosition;
-        lastPos.push(letter);
-        curPos();
-      }
-    } else {
-      //Code to show last Position
-      curPos();
+
+      case 'W':
+        myRover.direction = 'S';
+        console.log(newDirectionStr + myRover.direction);
+        break;
+
+      case 'S':
+        myRover.direction = 'E';
+        console.log(newDirectionStr + myRover.direction);
+        break;
+
+      case 'E':
+        myRover.direction = 'N';
+        console.log(newDirectionStr + myRover.direction);
+        break;
     }
+  }
 
-    if (checkCollision) {
-      return;
+  if (finalCommand === 'r') {
+    switch (myRover.direction) {
+      case 'N':
+        myRover.direction = 'E';
+        console.log(newDirectionStr + myRover.direction);
+        break;
+
+      case 'E':
+        myRover.direction = 'S';
+        console.log(newDirectionStr + myRover.direction);
+        break;
+
+      case 'S':
+        myRover.direction = 'W';
+        console.log(newDirectionStr + myRover.direction);
+        break;
+
+      case 'W':
+        myRover.direction = 'N';
+        console.log(newDirectionStr + myRover.direction);
+        break;
     }
   }
 
-  // Show current position of the Rover
-  function curPos() {
-    let currPos =
-      `
-    <li>
-      <span class="pos">${myRover.curPosition}</span>
-    </li>
-  `;
-    currentPos.innerHTML = currPos;
+  return myRover.direction;
+}
+
+//Make the Rover move depending on: direction & if forward/backward
+function moveRover() {
+
+  if (finalCommand === 'f') {
+    switch (myRover.direction) {
+      case 'N':
+        myRover.position[1]++;
+        break;
+      case 'E':
+        myRover.position[0]++;
+        break;
+      case 'S':
+        myRover.position[1]--;
+        break;
+      case 'W':
+        myRover.position[0]--;
+        break;
+    }
   }
 
-  // Clear the command input when submit
-  function clearForm() {
-    let formField = document.querySelector('.formFields');
-    formField.value = '';
+  if (finalCommand === 'b') {
+    switch (myRover.direction) {
+      case 'N':
+        myRover.position[1]--;
+        break;
+      case 'E':
+        myRover.position[0]--;
+        break;
+      case 'S':
+        myRover.position[1]++;
+        break;
+      case 'W':
+        myRover.position[0]++;
+        break;
+    }
   }
 
-  function checkCollision() {
-    return newPosition === [4, 8] ? true : false;
-  }
+  return myRover.position;
+}
+
+//Stop Commands if rover falls our of the grid 10 x 10
+
+function fallOut() {
+  return (myRover.position[0] < 0 * 1 || myRover.position[1] < 0 * 1 || myRover.position[0] > 10 * 1 || myRover.position[1] > 10 * 1) ? true : false;
 }
