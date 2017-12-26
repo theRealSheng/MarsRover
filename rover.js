@@ -8,6 +8,7 @@ let myRover = {
 var commandInput;
 var count = 0;
 var finalCommand;
+var obstacles = [Math.Random()*10, ]
 
 var newDirectionStr = 'New Rover Direction: ';
 
@@ -63,7 +64,7 @@ while (count < commandInput.length) {
   }
 
   // Check if rover falls outside of the grid of 10 x 10
-  if (fallOut) {
+  if (fallOut()) {
     console.log('The rover will fall outside the grid. Please input new instructions');
     break;
   }
