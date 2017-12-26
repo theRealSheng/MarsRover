@@ -8,12 +8,16 @@ let myRover = {
 var commandInput;
 var count = 0;
 var finalCommand;
-var obstacles = [Math.Random()*10, ]
+var obsX = Math.round(Math.random() * 9);
+var obsY = Math.round(Math.random() * 9);
+var obstacles = [obsX, obsY];
 
 var newDirectionStr = 'New Rover Direction: ';
 
 // *************Starting program
 var startInformation = console.log('Start position: ' + '[' + myRover.position + ']' + ' Direction: ' + myRover.direction);
+
+var obstaclePos = console.log(`There is obstacle at ${obstacles}`);
 
 //Asking for the orders (commands)
 commandInput = prompt('Waiting for new orders. The commands are: \n\n\nL: Left; \nR: Right; \nF: Forward; \nB: Backward;').toLowerCase();
@@ -66,6 +70,11 @@ while (count < commandInput.length) {
   // Check if rover falls outside of the grid of 10 x 10
   if (fallOut()) {
     console.log('The rover will fall outside the grid. Please input new instructions');
+    break;
+  }
+
+  if (hasCollided()) {
+    console.log('The rover has crossed with the obstacle. Please input other instructions');
     break;
   }
 
@@ -186,4 +195,8 @@ function moveRover() {
 
 function fallOut() {
   return Number(myRover.position[0]) < 0 || Number(myRover.position[1]) < 0 || Number(myRover.position[0]) > 9 || Number(myRover.position[1]) > 9 ? true : false;
+}
+
+function hasCollided() {
+  return (myRover.position == obstacles) ? true : false;
 }
