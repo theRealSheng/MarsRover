@@ -9,9 +9,6 @@ var commandInput;
 var count = 0;
 var finalCommand;
 
-var dirLeft;
-var dirRight;
-
 var newDirectionStr = 'New Rover Direction: ';
 
 // *************Starting program
