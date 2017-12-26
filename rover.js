@@ -184,5 +184,5 @@ function moveRover() {
 //Stop Commands if rover falls our of the grid 10 x 10
 
 function fallOut() {
-  return (myRover.position[0] < 0 * 1 || myRover.position[1] < 0 * 1 || myRover.position[0] > 10 * 1 || myRover.position[1] > 10 * 1) ? true : false;
+  return Number(myRover.position[0]) < 0 || Number(myRover.position[1]) < 0 || Number(myRover.position[0]) > 9 || Number(myRover.position[1]) > 9 ? true : false;
 }
