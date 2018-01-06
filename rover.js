@@ -20,7 +20,12 @@ var startInformation = console.log('Start position: ' + '[' + myRover.position +
 var obstaclePos = console.log(`There is obstacle at ${obstacles}`);
 
 //Asking for the orders (commands)
-commandInput = prompt('Waiting for new orders. The commands are: \n\n\nL: Left; \nR: Right; \nF: Forward; \nB: Backward;').toLowerCase();
+commandInput = prompt(`Waiting for new orders. There is an obstacle at position [${[obstacles]}]. The current direction of the Rover is North at position [0(X-point),0(Y-point)].
+  The commands are:
+  L: Left;
+  R: Right;
+  F: Forward;
+  B: Backward;`).toLowerCase();
 
 //Checking each individual command order
 while (count < commandInput.length) {
@@ -63,6 +68,7 @@ while (count < commandInput.length) {
   }
 
   //Inform the user about the Rover position in Mars
+
   if (commandInput[count] === 'f' || commandInput[count] === 'b') {
     console.log('New Rover Position: [' + myRover.position[0] + ', ' + myRover.position[1] + ']');
   }
@@ -75,7 +81,6 @@ while (count < commandInput.length) {
 
   if (hasCollided()) {
     console.log('The rover has crossed with the obstacle. Please input other instructions');
-    break;
   }
 
   count++;
@@ -158,15 +163,35 @@ function moveRover() {
     switch (myRover.direction) {
       case 'N':
         myRover.position[1]++;
+        if (String(myRover.position) === String(obstacles)) {
+          myRover.position[1]--;
+          console.log('The rover has crossed with the obstacle. Please input other instructions');
+        }
+
         break;
       case 'E':
         myRover.position[0]++;
+        if (String(myRover.position) === String(obstacles)) {
+          myRover.position[0]--;
+          console.log('The rover has crossed with the obstacle. Please input other instructions');
+        }
+
         break;
       case 'S':
         myRover.position[1]--;
+        if (String(myRover.position) === String(obstacles)) {
+          myRover.position[1]++;
+          console.log('The rover has crossed with the obstacle. Please input other instructions');
+        }
+
         break;
       case 'W':
         myRover.position[0]--;
+        if (String(myRover.position) === String(obstacles)) {
+          myRover.position[0]++;
+          console.log('The rover has crossed with the obstacle. Please input other instructions');
+        }
+
         break;
     }
   }
@@ -175,15 +200,35 @@ function moveRover() {
     switch (myRover.direction) {
       case 'N':
         myRover.position[1]--;
+        if (String(myRover.position) === String(obstacles)) {
+          myRover.position[1]++;
+          console.log('The rover has crossed with the obstacle. Please input other instructions');
+        }
+
         break;
       case 'E':
         myRover.position[0]--;
+        if (String(myRover.position) === String(obstacles)) {
+          myRover.position[0]++;
+          console.log('The rover has crossed with the obstacle. Please input other instructions');
+        }
+
         break;
       case 'S':
         myRover.position[1]++;
+        if (String(myRover.position) === String(obstacles)) {
+          myRover.position[1]--;
+          console.log('The rover has crossed with the obstacle. Please input other instructions');
+        }
+
         break;
       case 'W':
         myRover.position[0]++;
+        if (String(myRover.position) === String(obstacles)) {
+          myRover.position[0]--;
+          console.log('The rover has crossed with the obstacle. Please input other instructions');
+        }
+
         break;
     }
   }
@@ -198,5 +243,5 @@ function fallOut() {
 }
 
 function hasCollided() {
-  return (myRover.position == obstacles) ? true : false;
+  return (String(myRover.position) === String(obstacles)) ? true : false;
 }
